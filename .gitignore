@@ -108,3 +108,5 @@ pip-selfcheck.json
 .idea
 .idea/encodings.xml
 .idea/misc.xml
+
+Database/connecion.py
