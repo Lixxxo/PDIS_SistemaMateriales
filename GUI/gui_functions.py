@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from pyodbc import Date
+
 from GUI.gui import treeview_movements, treeview_materials, code_entry, name_entry, price_entry, \
     quantity_material_entry, \
     type_entry, quantity_movement_entry, date_entry, bottom, buttons_frame, show_window, buttons_frame_movements
@@ -135,12 +139,14 @@ def new_material():
 
 
 def new_movement():
+    date = datetime(year=date_entry.get_date().year, month=date_entry.get_date().month, day=date_entry.get_date().day)
+    print(date)
     return Movement(
-        id=-1,
+        id=1,
         movement_type=type_entry.get(),
         material_quantity=quantity_movement_entry.get(),
         material_id=code_entry.get(),
-        hour=date_entry.get()
+        date=date
     )
 
 
