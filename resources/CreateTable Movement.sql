@@ -1,6 +1,7 @@
+DROP TABLE Movements;
 CREATE TABLE Movements (
     Id int NOT NULL,
-    MovementType int NOT NULL,
+    MovementType nText NOT NULL,
     MaterialQuantity int NOT NULL,
 	Date Date,
 	MovementId int,
