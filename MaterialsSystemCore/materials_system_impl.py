@@ -94,13 +94,22 @@ class MaterialsSystem(IMaterialsSystem):
 
         print("The movement to add: " + str(movement))
 
+        # TODO: Hacer la query para registrar un movimiento en la base de datos (Joel).
+
         query = """
                 INSERT INTO MOVEMENTS (MOVEMENTTYPE, MATERIALQUANTITY, DATE, MOVEMENTID)
                 VALUES('%s', %s, %s, %s)
                 """ % (movement.movement_type, movement.material_quantity, movement.date, movement.id)
 
+        with self.connector as connection:
+            cursor = connection.cursor()
+            cursor.execute(query)
+            cursor.commit()
+
         return True
 
     def list_movements(self) -> list:
+
+        # TODO: Hacer este requerimiento (Joel).
         """Overrides IMaterialsSystem.list_movements()"""
         pass
