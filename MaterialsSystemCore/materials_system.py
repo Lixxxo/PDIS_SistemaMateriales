@@ -1,17 +1,19 @@
 from abc import abstractmethod
 from abc import ABCMeta
 
+from Model.models import Material
+
 
 class IMaterialsSystem(metaclass=ABCMeta):
 
     @abstractmethod
-    def create_material(self) -> bool:
+    def create_material(self, material: Material) -> bool:
         """Create a Material object and stores it in the database.
         """
         pass
 
     @abstractmethod
-    def edit_material(self) -> bool:
+    def edit_material(self, material: Material, material_id: int) -> bool:
         """Edit a Material object and persists it in the database.
         """
         pass

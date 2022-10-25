@@ -14,6 +14,31 @@ class SelectedData:
     alert = False
 
 
+def get_materials(connector):
+    with connector as connection:
+        query = """
+                SELECT * FROM MATERIALS
+                """
+        cursor = connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        materials = []
+
+        for i in results:
+            materials.append(Material(id=i[0], name=i[1], price=i[2], quantity=i[3]))
+        return materials
+
+
+def refresh_data():
+    """
+    Refresh the data in the tree views.
+    """
+    # TODO: Get the refreshed data from database.
+    fill_treeview_materials()
+    fill_treeview_movements()
+
+
 def fill_treeview_materials(materials):
     for item in treeview_materials.get_children():
         treeview_materials.delete(item)
@@ -97,7 +122,8 @@ def select_material_data(event):
     quantity_material_entry.insert(0, values[3])
 
     # SelectedData.selected_material = RRHHSystem.employees[int(selected)]
-    # SelectedData.employee_index = int(selected)
+    SelectedData.material_index = code_entry.get()
+    print("Selected material code: " + str(SelectedData.material_index))
 
 
 def new_material():
@@ -141,17 +167,18 @@ def select_movement_data(e):
     # SelectedData.contract_index = int(selected)
 
 
-def run_gui():
+def run_gui(materials_system: MaterialsSystem):
     # Capture click up event.
     treeview_materials.bind("<ButtonRelease-1>", select_material_data)
     treeview_movements.bind("<ButtonRelease-1>", select_movement_data)
 
     create_material_button = Button(buttons_frame, text="Crear",
-                                    command="")
+                                    command=lambda: materials_system.create_material(new_material()))
     create_material_button.grid(row=0, column=0, padx=10, pady=10)
 
     update_material_button = Button(buttons_frame, text="Actualizar",
-                                    command="")
+                                    command=lambda: materials_system.edit_material(new_material(),
+                                                                                   SelectedData.material_index))
     update_material_button.grid(row=0, column=1, padx=10, pady=10)
 
     register_movement_button = Button(buttons_frame_movements, text="Registrar",
@@ -162,12 +189,12 @@ def run_gui():
                                        command="")
     show_all_movements_button.grid(row=0, column=1, padx=10, pady=10)
 
-    mat = [Material(1, "ABC", 520_000, 100)]
+    # mat = [Material(1, "ABC", 520_000, 100), Material(2, "CDE", 420_000, 200)]
 
-    fill_treeview_materials(mat)
+    # materials = [m = Material() for m in results]
+    fill_treeview_materials(get_materials(materials_system.connector))
 
     # fill_treeview_movements()
 
     # Show GUI.
     show_window()
-
