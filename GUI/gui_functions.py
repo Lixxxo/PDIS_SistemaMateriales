@@ -184,7 +184,8 @@ def run_gui(materials_system: MaterialsSystem):
     update_material_button.grid(row=0, column=1, padx=10, pady=10)
 
     register_movement_button = Button(buttons_frame_movements, text="Registrar",
-                                      command="")
+                                      command=lambda: [materials_system.register_movement(new_movement()),
+                                                       refresh_data(materials_system.connector)])
     register_movement_button.grid(row=0, column=0, padx=10, pady=10)
 
     show_all_movements_button = Button(buttons_frame_movements, text="Ver todo",
