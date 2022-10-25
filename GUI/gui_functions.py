@@ -21,7 +21,7 @@ def fill_treeview_materials(materials):
     count = 0
     for material in materials:
         _values = (
-            material.code,
+            material.id,
             material.name,
             material.price,
             material.quantity
@@ -162,12 +162,12 @@ def run_gui():
                                        command="")
     show_all_movements_button.grid(row=0, column=1, padx=10, pady=10)
 
-    # fill_treeview_materials()
+    mat = [Material(1, "ABC", 520_000, 100)]
+
+    fill_treeview_materials(mat)
 
     # fill_treeview_movements()
 
     # Show GUI.
     show_window()
 
-
-run_gui()
