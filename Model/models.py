@@ -9,7 +9,7 @@ class Movement:
     movement_type: str
     material_quantity: int
     material_id: int
-    hour: datetime = datetime.now()
+    date: datetime = datetime.now()
 
 
 @dataclass
