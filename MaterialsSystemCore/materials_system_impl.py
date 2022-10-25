@@ -20,6 +20,26 @@ def check_material(material: Material):
     return True
 
 
+def check_movement(movement: Movement):
+    # TODO: Convert price and quantity to int and verify that is not negative and integer.
+    if movement.id == "":
+        print("No ID in movement..")
+        return False
+    if movement.movement_type == "":
+        print("No movement type in movement..")
+        return False
+    if movement.material_quantity == "":
+        print("No material quantity in movement..")
+        return False
+    if movement.date == "":
+        print("No date in movement..")
+        return False
+    if movement.material_id == "":
+        print("No material id in movement..")
+        return False
+    return True
+
+
 class MaterialsSystem(IMaterialsSystem):
 
     def __init__(self):
@@ -66,10 +86,20 @@ class MaterialsSystem(IMaterialsSystem):
 
         return True
 
-    def register_movement(self) -> bool:
+    def register_movement(self, movement: Movement) -> bool:
         """Overrides IMaterialsSystem.register_movement()"""
-        movement = Movement(movement_type="buy", material_quantity=5, )
-        pass
+        if not check_movement(movement):
+            print("Movement has invalid data..")
+            return False
+
+        print("The movement to add: " + str(movement))
+
+        query = """
+                INSERT INTO MOVEMENTS (MOVEMENTTYPE, MATERIALQUANTITY, DATE, MOVEMENTID)
+                VALUES('%s', %s, %s, %s)
+                """ % (movement.movement_type, movement.material_quantity, movement.date, movement.id)
+
+        return True
 
     def list_movements(self) -> list:
         """Overrides IMaterialsSystem.list_movements()"""

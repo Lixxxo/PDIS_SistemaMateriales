@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from abc import ABCMeta
 
-from Model.models import Material
+from Model.models import Material, Movement
 
 
 class IMaterialsSystem(metaclass=ABCMeta):
@@ -19,7 +19,7 @@ class IMaterialsSystem(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def register_movement(self) -> bool:
+    def register_movement(self, movement: Movement) -> bool:
         """Create a Movement object and stores it in the database.
         """
         pass
