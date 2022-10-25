@@ -4,9 +4,9 @@ from GUI.gui_functions import run_gui
 
 
 def run():
-    ms = MaterialsSystem()
+    material_system = MaterialsSystem()
 
-    run_gui(ms)
+    run_gui()
 
 
 if __name__ == "__main__":
