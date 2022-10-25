@@ -38,8 +38,6 @@ class MaterialsSystem(IMaterialsSystem):
                 VALUES('%s', %s, %s)
                 """ % (material.name, material.price, material.quantity)
 
-        print(query)
-
         with self.connector as connection:
             cursor = connection.cursor()
             cursor.execute(query)
@@ -54,6 +52,17 @@ class MaterialsSystem(IMaterialsSystem):
             return False
 
         print("The material to edit: " + str(material))
+
+        query = """
+                UPDATE MATERIALS 
+                SET NAME = '%s', PRICE = %s, QUANTITY = %s
+                WHERE ID = %s
+                """ % (material.name, material.price, material.quantity, material_id)
+
+        with self.connector as connection:
+            cursor = connection.cursor()
+            cursor.execute(query)
+            cursor.commit()
 
         return True
 

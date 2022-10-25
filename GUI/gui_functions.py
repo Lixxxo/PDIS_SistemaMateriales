@@ -30,13 +30,13 @@ def get_materials(connector):
         return materials
 
 
-def refresh_data():
+def refresh_data(connector):
     """
     Refresh the data in the tree views.
     """
     # TODO: Get the refreshed data from database.
-    fill_treeview_materials()
-    fill_treeview_movements()
+    fill_treeview_materials(get_materials(connector))
+    # fill_treeview_movements(get)
 
 
 def fill_treeview_materials(materials):
@@ -173,12 +173,14 @@ def run_gui(materials_system: MaterialsSystem):
     treeview_movements.bind("<ButtonRelease-1>", select_movement_data)
 
     create_material_button = Button(buttons_frame, text="Crear",
-                                    command=lambda: materials_system.create_material(new_material()))
+                                    command=lambda: [materials_system.create_material(new_material()),
+                                                     refresh_data(materials_system.connector)])
     create_material_button.grid(row=0, column=0, padx=10, pady=10)
 
     update_material_button = Button(buttons_frame, text="Actualizar",
-                                    command=lambda: materials_system.edit_material(new_material(),
-                                                                                   SelectedData.material_index))
+                                    command=lambda: [materials_system.edit_material(new_material(),
+                                                                                    SelectedData.material_index),
+                                                     refresh_data(materials_system.connector)])
     update_material_button.grid(row=0, column=1, padx=10, pady=10)
 
     register_movement_button = Button(buttons_frame_movements, text="Registrar",
@@ -189,9 +191,6 @@ def run_gui(materials_system: MaterialsSystem):
                                        command="")
     show_all_movements_button.grid(row=0, column=1, padx=10, pady=10)
 
-    # mat = [Material(1, "ABC", 520_000, 100), Material(2, "CDE", 420_000, 200)]
-
-    # materials = [m = Material() for m in results]
     fill_treeview_materials(get_materials(materials_system.connector))
 
     # fill_treeview_movements()
