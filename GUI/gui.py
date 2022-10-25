@@ -9,10 +9,10 @@ root = Tk()
 root.resizable(width=False, height=False)
 
 # Set iconbitmap
-# root.iconbitmap("resources/RRHH.ico")
+root.iconbitmap("resources/wood.ico")
 
 # Set the window title
-root.title('APP_TITLE')
+root.title('Gestión de materiales y movimientos')
 
 # Handle header.
 header = Frame(root)
