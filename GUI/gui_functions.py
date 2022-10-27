@@ -183,13 +183,13 @@ def run_gui(materials_system: MaterialsSystem):
 
     create_material_button = Button(buttons_frame, text="Crear",
                                     command=lambda: [materials_system.create_material(new_material()),
-                                                     refresh_data(materials_system.connector)])
+                                                     refresh_data(materials_system)])
     create_material_button.grid(row=0, column=0, padx=10, pady=10)
 
     update_material_button = Button(buttons_frame, text="Actualizar",
                                     command=lambda: [materials_system.edit_material(new_material(),
                                                                                     SelectedData.material_index),
-                                                     refresh_data(materials_system.connector)])
+                                                     refresh_data(materials_system)])
     update_material_button.grid(row=0, column=1, padx=10, pady=10)
 
     register_movement_button = Button(buttons_frame_movements, text="Registrar",
