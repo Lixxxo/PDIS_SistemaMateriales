@@ -1,12 +1,10 @@
 from datetime import datetime
 
-from pyodbc import Date
-
 from GUI.gui import treeview_movements, treeview_materials, code_entry, name_entry, price_entry, \
     quantity_material_entry, \
-    type_entry, quantity_movement_entry, date_entry, bottom, buttons_frame, show_window, buttons_frame_movements
+    type_entry, quantity_movement_entry, date_entry, buttons_frame, show_window, buttons_frame_movements
 from MaterialsSystemCore.materials_system_impl import MaterialsSystem
-from tkinter import END, filedialog, LEFT
+from tkinter import END
 from tkinter.ttk import Button
 
 from Model.models import Material, Movement
@@ -34,13 +32,12 @@ def get_materials(connector):
         return materials
 
 
-def refresh_data(connector):
+def refresh_data(material_system):
     """
     Refresh the data in the tree views.
     """
-    # TODO: Get the refreshed data from database.
-    fill_treeview_materials(get_materials(connector))
-    # fill_treeview_movements(get)
+    fill_treeview_materials(get_materials(material_system.connector))
+    fill_treeview_movements(material_system.list_movements(), get_materials(material_system.connector))
 
 
 def fill_treeview_materials(materials):
@@ -73,16 +70,18 @@ def fill_treeview_materials(materials):
         count += 1
 
 
-def fill_treeview_movements(movements):
+def fill_treeview_movements(movements, materials):
     for item in treeview_movements.get_children():
         treeview_movements.delete(item)
 
     count = 0
     for movement in movements:
+        material = [m for m in materials if m.id == movement.material_id]
         _values = (
             movement.date,
-            movement.type,
-            movement.quantity
+            movement.movement_type,
+            material[0].name if material else "Elemento Eliminado",
+            movement.material_quantity
         )
         if count % 2 == 0:
             treeview_movements.insert(parent='',
@@ -139,13 +138,17 @@ def new_material():
 
 
 def new_movement():
+
+    if code_entry.get() is None:
+        print("No material selected")
+        return
     date = datetime(year=date_entry.get_date().year, month=date_entry.get_date().month, day=date_entry.get_date().day)
-    print(date)
+
     return Movement(
         id=1,
         movement_type=type_entry.get(),
         material_quantity=quantity_movement_entry.get(),
-        material_id=code_entry.get(),
+        material_id=int(code_entry.get()),
         date=date
     )
 
@@ -191,16 +194,12 @@ def run_gui(materials_system: MaterialsSystem):
 
     register_movement_button = Button(buttons_frame_movements, text="Registrar",
                                       command=lambda: [materials_system.register_movement(new_movement()),
-                                                       refresh_data(materials_system.connector)])
+                                                       refresh_data(materials_system)])
     register_movement_button.grid(row=0, column=0, padx=10, pady=10)
-
-    show_all_movements_button = Button(buttons_frame_movements, text="Ver todo",
-                                       command="")
-    show_all_movements_button.grid(row=0, column=1, padx=10, pady=10)
 
     fill_treeview_materials(get_materials(materials_system.connector))
 
-    # fill_treeview_movements()
+    fill_treeview_movements(materials_system.list_movements(), get_materials(materials_system.connector))
 
     # Show GUI.
     show_window()

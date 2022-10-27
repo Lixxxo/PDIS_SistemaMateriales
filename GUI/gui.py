@@ -119,17 +119,20 @@ treeview_scroll.config(command=treeview_movements.yview)
 # Define Columns
 treeview_movements['columns'] = ('date',
                                  'type',
+                                 'material',
                                  'quantity')
 # Format Columns
 treeview_movements.column('#0', width=0, stretch=NO)
 treeview_movements.column("date", anchor=W, width=100)
 treeview_movements.column("type", anchor=W, width=150)
+treeview_movements.column("material", anchor=W, width=150)
 treeview_movements.column("quantity", anchor=W, width=100)
 
 # Creating Headings
 treeview_movements.heading("#0", text="", anchor=W)
 treeview_movements.heading("date", text="Fecha", anchor=W)
 treeview_movements.heading("type", text="Tipo de movimiento", anchor=W)
+treeview_movements.heading("material", text="Material", anchor=W)
 treeview_movements.heading("quantity", text="Cantidad", anchor=W)
 
 # Add striped row tags.
