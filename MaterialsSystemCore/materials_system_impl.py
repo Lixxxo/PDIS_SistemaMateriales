@@ -11,9 +11,6 @@ def check_material(material: Material):
     if not material.quantity.isnumeric():
         print("NaN quantity in material")
         return False
-    if material.id == "":
-        print("No ID in material..")
-        return False
     if material.name == "":
         print("No name in material..")
         return False
